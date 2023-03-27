@@ -165,13 +165,11 @@ pub extern "C" fn begin(desc: &Desc) {
 }
 
 pub extern "C" fn shutdown() {
-    let state = unsafe { &mut *STATE.as_mut_ptr() };
+    unsafe { STATE.assume_init_drop() }
 }
 
 #[rustfmt::skip]
 pub fn egui_cursor_to_sapp_cursor(cursor: egui::CursorIcon) -> sapp::MouseCursor {
-    dbg!(cursor);
-
     match cursor {
         egui::CursorIcon::Default          => sapp::MouseCursor::Default,
         egui::CursorIcon::PointingHand     => sapp::MouseCursor::PointingHand,
